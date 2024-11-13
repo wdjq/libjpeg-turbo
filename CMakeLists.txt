@@ -48,7 +48,7 @@ if(MSVC OR CMAKE_C_SIMULATE_ID STREQUAL "MSVC")
 endif()
 
 # The libjpeg-turbo build system has never supported and will never support
-# being integrated into another build system using add_subdirectory(), because
+# being integrated into another build system using ExternalProject_Add(), because
 # doing so would require that we (minimally):
 #
 # 1. avoid using certain CMake variables, such as CMAKE_SOURCE_DIR,
@@ -644,7 +644,7 @@ if(WITH_ARITH_DEC)
 endif()
 
 if(WITH_SIMD)
-  add_subdirectory(simd)
+  ExternalProject_Add(simd)
   if(NEON_INTRINSICS)
     add_definitions(-DNEON_INTRINSICS)
   endif()
@@ -666,7 +666,7 @@ if(WITH_SIMD)
 endif()
 
 if(WITH_JAVA)
-  add_subdirectory(java)
+  ExternalProject_Add(java)
 endif()
 
 if(ENABLE_SHARED)
@@ -678,7 +678,7 @@ if(ENABLE_SHARED)
   add_library(jpeg16 OBJECT ${JPEG16_SOURCES})
   set_property(TARGET jpeg16 PROPERTY COMPILE_FLAGS "-DBITS_IN_JSAMPLE=16")
   set_target_properties(jpeg16 PROPERTIES POSITION_INDEPENDENT_CODE 1)
-  add_subdirectory(sharedlib)
+  ExternalProject_Add(sharedlib)
 endif()
 
 if(ENABLE_STATIC)
@@ -858,12 +858,12 @@ add_executable(wrjpgcom src/wrjpgcom.c)
 ###############################################################################
 
 if(WITH_FUZZ)
-  add_subdirectory(fuzz)
+  ExternalProject_Add(fuzz)
 endif()
 
 add_executable(strtest src/strtest.c)
 
-add_subdirectory(src/md5)
+ExternalProject_Add(src/md5)
 
 if(GENERATOR_IS_MULTI_CONFIG)
   set(OBJDIR "\${CTEST_CONFIGURATION_TYPE}/")
