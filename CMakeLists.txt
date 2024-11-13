@@ -11,6 +11,20 @@ string(REPLACE "." ";" VERSION_TRIPLET ${VERSION})
 list(GET VERSION_TRIPLET 0 VERSION_MAJOR)
 list(GET VERSION_TRIPLET 1 VERSION_MINOR)
 list(GET VERSION_TRIPLET 2 VERSION_REVISION)
+# 包含 ExternalProject 模块
+include(ExternalProject)
+
+# 使用 ExternalProject_Add 集成 libjpeg-turbo
+ExternalProject_Add(
+  libjpeg-turbo
+  PREFIX ${CMAKE_BINARY_DIR}/libjpeg-turbo
+  GIT_REPOSITORY https://github.com/libjpeg-turbo/libjpeg-turbo.git
+  GIT_TAG 3.0.91 # 请替换为您需要的版本标签
+  UPDATE_COMMAND ""
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_BINARY_DIR}/libjpeg-turbo-install -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+  BUILD_COMMAND ""
+  INSTALL_COMMAND ""
+)
 function(pad_number NUMBER OUTPUT_LEN)
   string(LENGTH "${${NUMBER}}" INPUT_LEN)
   if(INPUT_LEN LESS OUTPUT_LEN)
